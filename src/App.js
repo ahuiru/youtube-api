@@ -1,23 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import "./App.css";
+import { Movie } from "./components/Movie";
+
+const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
 
 function App() {
+  // const [boolean, setBoolean] = useState(false);
+
+  // const getYoutubeLists = () => {
+  //   const fetchData = () => {
+  //     axios
+  //       .get(
+  //         `https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&q=react&maxResults=3&key=${YOUTUBE_API_KEY}`
+  //       )
+  //       .then((res) => {
+  //         console.log(res);
+  //       });
+  //   };
+  //   fetchData();
+  // };
+  useEffect(() => {
+    const getYoutubeLists = () => {
+      const fetchData = () => {
+        axios
+          .get(
+            `https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&q=react&maxResults=3&key=${YOUTUBE_API_KEY}`
+          )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      fetchData();
+    };
+    getYoutubeLists();
+  }, []);
+
+  // const handleClick = () => {
+  //   setBoolean(!boolean);
+  //   if (boolean === true) {
+  //     getYoutubeLists();
+  //   }
+  // };
+
+  // useEffect(() => {
+
+  // }, [boolean])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <button onClick={handleClick}>押して動画取得</button>
+      {boolean ? <Movie handleClick={handleClick} /> : <p>表示してね！</p>} */}
     </div>
   );
 }
