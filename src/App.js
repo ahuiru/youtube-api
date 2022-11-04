@@ -1,59 +1,73 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
+import { Input } from "./components/Input";
 import { Movie } from "./components/Movie";
 
 const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
 
 function App() {
-  // const [boolean, setBoolean] = useState(false);
+  const [keyword, setKeyword] = useState("");
+  const [youtubeList, setYoutubeList] = useState([]);
+  const [isThumbnails, setIsThumbnails] = useState(true);
 
-  // const getYoutubeLists = () => {
-  //   const fetchData = () => {
-  //     axios
-  //       .get(
-  //         `https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&q=react&maxResults=3&key=${YOUTUBE_API_KEY}`
-  //       )
-  //       .then((res) => {
-  //         console.log(res);
-  //       });
-  //   };
-  //   fetchData();
-  // };
-  useEffect(() => {
-    const getYoutubeLists = () => {
-      const fetchData = () => {
-        axios
-          .get(
-            `https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&q=react&maxResults=3&key=${YOUTUBE_API_KEY}`
-          )
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-      fetchData();
+  const getYoutubeLists = () => {
+    const fetchData = () => {
+      axios
+        .get(
+          `https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&q=${keyword}&maxResults=3&key=${YOUTUBE_API_KEY}`
+        )
+        .then((res) => {
+          console.log(res);
+          setYoutubeList(res.data.items);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
-    getYoutubeLists();
-  }, []);
-
-  // const handleClick = () => {
-  //   setBoolean(!boolean);
-  //   if (boolean === true) {
-  //     getYoutubeLists();
-  //   }
-  // };
-
+    fetchData();
+  };
   // useEffect(() => {
+  //   const getYoutubeLists = () => {
+  //     const fetchData = () => {
+  //       axios
+  //         .get(
+  //           `https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&q=${keyword}&maxResults=3&key=${YOUTUBE_API_KEY}`
+  //         )
+  //         .then((res) => {
+  //           console.log(res);
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //         });
+  //     };
+  //     fetchData();
+  //   };
+  //   getYoutubeLists();
+  // }, []);
+
+  const handleClickInput = () => {
+    getYoutubeLists();
+  };
 
   // }, [boolean])
 
+// idをってきてそのidとyoutube.idが一緒なら動画回すみたいなのはどうよ
+
   return (
     <div className="App">
-      {/* <button onClick={handleClick}>押して動画取得</button>
-      {boolean ? <Movie handleClick={handleClick} /> : <p>表示してね！</p>} */}
+      <Input
+        keyword={keyword}
+        setKeyword={setKeyword}
+        handleClickInput={handleClickInput}
+      />
+      {/* {youtubeList.map((youtube, i) => (
+        <div key={i}>
+
+          <Movie youtube={youtube} isThumbnails={isThumbnails} setIsThumbnails={setIsThumbnails} />
+        </div>
+      ))} */}
+      <Movie youtubeList={youtubeList} isThumbnails={isThumbnails} setIsThumbnails={setIsThumbnails} />
     </div>
   );
 }
