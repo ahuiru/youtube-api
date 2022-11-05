@@ -15,7 +15,7 @@ function App() {
     const fetchData = () => {
       axios
         .get(
-          `https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&q=${keyword}&maxResults=3&key=${YOUTUBE_API_KEY}`
+          `https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&q=${keyword}&maxResults=1&key=${YOUTUBE_API_KEY}`
         )
         .then((res) => {
           console.log(res);
@@ -48,11 +48,13 @@ function App() {
 
   const handleClickInput = () => {
     getYoutubeLists();
+    setIsThumbnails(true)
   };
 
   // }, [boolean])
 
-// idをってきてそのidとyoutube.idが一緒なら動画回すみたいなのはどうよ
+// idをってきてそのidとyoutube.idが一緒なら動画回す
+// 違ったら
 
   return (
     <div className="App">
@@ -61,13 +63,19 @@ function App() {
         setKeyword={setKeyword}
         handleClickInput={handleClickInput}
       />
-      {/* {youtubeList.map((youtube, i) => (
-        <div key={i}>
 
+      {/* youtubeListを回してyoutubeをpropsとしてMovieに渡す */}
+      {youtubeList.map((youtube, i) => (
+        <div key={i}>
           <Movie youtube={youtube} isThumbnails={isThumbnails} setIsThumbnails={setIsThumbnails} />
         </div>
-      ))} */}
-      <Movie youtubeList={youtubeList} isThumbnails={isThumbnails} setIsThumbnails={setIsThumbnails} />
+      ))}
+
+      {/* or */}
+
+      {/* youtubeListをそのままpropsとしてMovieに渡す */}
+      {/* <Movie youtubeList={youtubeList} isThumbnails={isThumbnails} setIsThumbnails={setIsThumbnails} /> */}
+
     </div>
   );
 }
